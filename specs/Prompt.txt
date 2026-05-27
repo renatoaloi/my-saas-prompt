@@ -1,0 +1,1 @@
+Criar o projeto conforme as especificações do arquivo Project.md e gerar arquivo README.md com as especificações do projeto e também com instruções de instalação e uso.
