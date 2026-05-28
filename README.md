@@ -9,12 +9,17 @@ Crie seu SaaS em 5 minutos! Projeto scaffolding de SaaS usando os melhores padr�
 - Código limpo, arquitetura Clean! (Seu Dev vai adorar dar manutenção nesse projeto!)
 - Não requer nenhum conhecimento em programação (**faz tudo sozinho!**)
 
+## Vídeo
+
+[Assista no Youtube!](https://youtu.be/iX3zGKaQoks)
+
 ## Como funciona?
 
 - Edite o arquivo Project.md com as especificações do seu projeto (use o Project.example.md como inspiração).
 - Não mexa em mais nada, os outros arquivos já estão prontos para tudo funcionar automaticamente.
 - Agora abra seu harness de IA favorito (Claude, Codex, Cursor, OpenCode etc.)
 - Use o comando `/init` no modo `Build` e pronto!
+- Se ele não construir o projeto automaticamente, basta pedir para executar o `Prompt.txt`
 
 Desfrute do sistema usando o Docker (forma mais fácil):
 
