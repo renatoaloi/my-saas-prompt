@@ -2,7 +2,7 @@
 
 Crie seu SaaS em 5 minutos! Projeto scaffolding de SaaS usando os melhores padrões de desenvolvimento do mercado. Prompts exclusivos para criação do projeto completo contendo backend, frontend e banco de dados local!
 
-- Independente de plataforma, **publique onde quiser**!
+- Independente de plataforma, **publique onde quiser**! Esqueça Vercel, Lovable etc. Você é dono do seu código!
 - Frontend bonito e responsivo!
 - Backend organizado e seguindo os padrões da indústria.
 - Sem dependências pagas, **totalmente gratuito**.
