@@ -1,10 +1,6 @@
-# Arquivo de exemplo! Não considerar como parte do projeto!
+# Arquivo de exemplo! Use como inspiração, APAGUE-ME antes de iniciar!
 
-Copiar abaixo da linha para seu arquivo Project.md e edite com as suas informações, ou deixe as informações de exemplo para ver o projeto que eu criei com esse prompt.
-
-> **Instrução especial para o harness**: IGNORAR TUDO NESSE ARQUIVO, é só exemplo para o usuário personalizar! Considerar apenas o arquivo Project.md como sendo o principal do projeto.
-
-## Copiar tudo abaixo dessa linha para o arquivo Project.md (e altere conforme sua necessidade):
+> **Instrução especial para o harness**: IGNORAR TUDO NESSE ARQUIVO, é só exemplo para o usuário se inspirar! Considerar apenas o arquivo Project.md como sendo o principal do projeto.
 
 # Projeto Freelancer Manager Board
 
@@ -32,23 +28,43 @@ O objetivo do projeto é criar um sistema de controle de horas trabalhadas em ta
 - Apontamento: Id, TarefaId, Data, HoraIni, HoraFim, TotalHoras
 - Relatório: Id, ClienteId, ProjetoId, Tarefas, Total de horas por projeto, total de horas geral, valor total do mês
 
+## Requisitos Funcionais
+
+- Campo CNPJ deve ter 14 digitos numéricos
+- Exibir CNPJ formatado no padrão Brasileiro
+- Campo CEP deve ter 8 dígitos numéricos
+- Exibir CEP com um traço (-) separando os últimos 3 dígitos, exemplo: 12345-000
+- Campo de email deve verificar se está no formato válido (usar regex)
+- Os campos email e CNPJ são obrigatórios no cadastro e na edição.
+- Não duplicar os clientes no banco de dados, não pode existir um cliente com o mesmo CNPJ ou email de outro cliente.
+
+## Requisitos Não Funcionais
+
+- Opções do menu lateral: voltar para a página inicial, Cadastro de clientes, Cadastro de Projetos, Kanban para gerenciar as tarefas, Relatórios
+- Tema visual: azul escuro com elementos em neon verde água e rosa, glassmorphism, tecnológico.
+
 ## Requisitos Técnicos
 
 - Usuário único, não precisa de login (API deve apenas receber uma X API Key para chamadas do frontend)
 - Frontend em React + Vite usando Tailwind e responsivo
 - Backend em Python + FastAPI + SQLAlchemy + Alembic
 - Banco de dados SQLite local na pasta storage
-- Upload de arquivos na pasta storage, dentro de subpastas por id de cliente, id do projeto e id da task.
+- Upload de arquivos na pasta storage, dentro de subpastas por id da entidade de origem.
 - Todos Ids de entidades devem ser UUID's.
+- Utilizar migrações do Alembic para criar o banco e para alterações estruturais nas entidades (usando sempre a API do Alembic)
+- Não utilizar alert() nem confirm() para comunicação com o usuário no frontend, ao invés disso, usar componentes Modal com design compatível com o site
+- Nunca escreva/modifique na pasta storage, pois é onde ficam os dados sensíveis de usuário
 
 ## Frontend
 
 - Página inicial é o dashboard
-- Menu lateral com opções de voltar para a página inicial, Cadastro de clientes, Cadastro de Projetos, Kanban para gerenciar as tarefas
+- Menu lateral com opções listadas nos requisitos não funcionais
 - Responsivo
-- Tema visual azul escuro com elementos em neon verde água e rosa
-- Campo para editar markdown no preenchimento de descrição de projetos e tarefas, com opções de negrito, títulos, elementos etc
+- Tema visual conforme detalhado nos requisitos não funcionais
+- Campo para editar markdown no preenchimento de descrição, com opções de negrito, títulos, elementos etc
 - Os campos markdown devem ser exibidos formatados, mas editados no texto puro.
+- Datas e horas no formato brasileiro respeitando fuso horário do Brasil
+- Números e valores monetários exibir no padrão brasileiro no frontend
 
 ## Backend
 
@@ -56,6 +72,7 @@ O objetivo do projeto é criar um sistema de controle de horas trabalhadas em ta
 - Injeção de dependência de serviço no controller
 - Injeção de dependência do banco no serviço
 - Testes unitários das entidades e validação de campos
-- Testes de duplicidade de registros (não pode duplicar clientes)
+- Testes de duplicidade de registros (exemplo: não pode duplicar clientes)
 - Autenticação por X-Api-Key no header
 - Upload de documentos na pasta storage
+- Banco de dados na pasta storage
