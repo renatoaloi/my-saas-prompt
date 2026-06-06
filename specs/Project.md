@@ -55,6 +55,7 @@ O objetivo do projeto é ... [ descrever o que você quer que o projeto faça ]
 - Os campos markdown devem ser exibidos formatados, mas editados no texto puro.
 - Datas e horas no formato brasileiro respeitando fuso horário do Brasil
 - Números e valores monetários exibir no padrão brasileiro no frontend
+- Utilizar variáveis de ambiente do Vite, tanto para baseUrl quanto para a chave de API
 
 ## Backend
 
@@ -66,3 +67,4 @@ O objetivo do projeto é ... [ descrever o que você quer que o projeto faça ]
 - Autenticação por X-Api-Key no header
 - Upload de documentos na pasta storage
 - Banco de dados na pasta storage
+- Utilizar variáveis de ambiente para a chave API, database URL, porta e storage path.
