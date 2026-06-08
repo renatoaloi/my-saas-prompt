@@ -68,3 +68,4 @@ O objetivo do projeto é ... [ descrever o que você quer que o projeto faça ]
 - Upload de documentos na pasta storage
 - Banco de dados na pasta storage
 - Utilizar variáveis de ambiente para a chave API, database URL, porta e storage path.
+- Lembrar de configurar o CORS permissivo para acesso do frontend.
