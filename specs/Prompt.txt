@@ -1,1 +1,98 @@
-Criar o projeto conforme as especificações do arquivo Project.md e gerar arquivo README.md com as especificações do projeto e também com instruções de instalação e uso.
+Criar o projeto completo seguindo a ordem abaixo.
+
+## 1. Ler Especificações
+
+- Ler o arquivo `Project.md` na raiz do projeto
+- Extrair: nome do projeto, objetivo, regras de negócio, entidades, requisitos funcionais e requisitos visuais (menu lateral e tema)
+
+## 2. Criar Estrutura de Diretórios
+
+```
+raiz-do-projeto/
+├── backend/
+│   └── src/
+│       ├── application/    # Casos de uso / serviços de aplicação
+│       ├── domain/         # Entidades, regras de negócio, interfaces
+│       └── infrastructure/ # Banco, repositórios, configuração externa
+├── frontend/
+│   └── src/
+│       ├── components/     # Componentes reutilizáveis
+│       ├── pages/          # Páginas da aplicação
+│       ├── hooks/          # Custom hooks
+│       └── services/       # Chamadas HTTP para API
+├── storage/                # Dados sensíveis (não modificar manualmente)
+├── docker/                 # Arquivos Docker (se aplicável)
+└── README.md               # Será gerado ao final
+```
+
+## 3. Implementar Backend (nesta ordem)
+
+### 3.1 Camada de Domínio
+- Entidades com campos conforme especificação
+- Todos os IDs como UUID
+- Validações de campos
+
+### 3.2 Camada de Infraestrutura
+- Configuração do SQLAlchemy + engine SQLite em `storage/`
+- Migrações Alembic para criar o banco
+- Repositórios implementando interfaces do domínio
+
+### 3.3 Camada de Aplicação
+- Serviços com regras de negócio
+- Injeção de dependência do banco nos serviços
+
+### 3.4 API (Controllers)
+- Rotas CRUD para cada entidade
+- Autenticação via header `X-Api-Key`
+- Upload de arquivos em `storage/<entidade_id>/`
+- Injeção de dependência dos serviços nos controllers
+- CORS permissivo para acesso do frontend
+
+## 4. Implementar Frontend (nesta ordem)
+
+### 4.1 Setup
+- React + Vite + Tailwind + TypeScript
+- Tema visual conforme especificado (cores, tipografia, modo)
+- Data/hora e valores monetários em formato brasileiro
+
+### 4.2 Componentes Base
+- Modal (substitui alert()/confirm())
+- Sidebar/Menu lateral (opções do requisito visual)
+- Markdown editor (edição em texto puro, exibição formatada)
+- Formatação brasileira de data e números
+
+### 4.3 Páginas
+- Dashboard (página inicial)
+- Demais páginas conforme opções do menu lateral
+- Responsividade (mobile-first)
+
+### 4.4 Serviços
+- Chamadas HTTP para API usando baseUrl e API Key do Vite env vars
+
+## 5. Configurar Docker
+
+- Seguir as instruções do arquivo `DockerConfig.md`
+- Dockerfile para backend e frontend
+- Docker compose com volume storage em bind mount
+- Health check da API antes de subir o frontend
+
+## 6. Gerar README.md
+
+- Nome e descrição do projeto
+- Requisitos (Git, Docker, Node.js, Python)
+- Como configurar variáveis de ambiente
+- Como rodar com Docker Compose
+- Como rodar manualmente (dev)
+
+## 7. Validar
+
+- Backend: servidor inicia sem erros (`uvicorn` ou similar)
+- Frontend: compila sem erros (`npm run build`)
+- Migrações: `alembic upgrade head` executa com sucesso
+- Docker: `docker compose up -d --build` funciona
+
+---
+
+**Configurações opcionais (aplicar se desejar):**
+- Se quiser adicionar autenticação JWT, siga as instruções em `config/LoginConfig.md`
+- Se quiser migrar de SQLite para Supabase, siga as instruções em `config/SupabaseConfig.md`
