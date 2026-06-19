@@ -75,4 +75,3 @@ Após gerar a aplicação básica, você pode aplicar configurações extras:
 
 - **Git** — controle de versão
 - **Docker** — containerização da aplicação
-- **Node.js** — para gerar as tech specs (`node build-specs.js`)

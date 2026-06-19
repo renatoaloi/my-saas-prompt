@@ -4,7 +4,7 @@
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 <title>my-saas-prompt — Gerar Project.md</title>
-<script src="../config/tech-specs-config.js"></script>
+<!-- tech specs lidas diretamente de config/TechSpecsConfig.md -->
 <style>
   @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
 
@@ -475,11 +475,6 @@
 <div class="toast" id="toast">Project.md baixado com sucesso!</div>
 
 <script>
-if (typeof window.TECH_SPECS_MD === 'undefined') {
-  console.warn('Tech specs não carregadas. Execute node build-specs.js na raiz do projeto.');
-  window.TECH_SPECS_MD = '';
-}
-
 function addItem(listId, placeholder) {
   const list = document.getElementById(listId);
   const div = document.createElement('div');
@@ -534,21 +529,17 @@ ${listar(rfs, 'Campo X deve ter 9 dígitos numéricos')}
 - Tema visual: ${tema}
 
 ---
-> - **Não precisa editar desse ponto em diante, é apenas para uso da Inteligência Artificial**
->   - Em caso de dúvidas no preenchimento, use o Project.example.md como inspiração.
----
-
-${window.TECH_SPECS_MD || `
-> ⚠️ **Aviso:** Arquivo de especificações técnicas não carregado.
-> Execute \`node build-specs.js\` na raiz do projeto para gerar as tech specs.
-`}
+> **Instruções para a Inteligência Artificial**
+>
+> Este documento contém os requisitos de negócio e visuais do projeto.
+> As especificações técnicas detalhadas (stack, arquitetura, regras de frontend e backend) estão no arquivo **\`config/TechSpecsConfig.md\`** — consulte-o obrigatoriamente antes de implementar.
 `;
 
   const blob = new Blob([md], { type: 'text/markdown' });
   const url = URL.createObjectURL(blob);
   const a = document.createElement('a');
   a.href = url;
-  a.download = nome.replace(/\s+/g, '_') + '.md';
+  a.download = 'Project.md';
   document.body.appendChild(a);
   a.click();
   document.body.removeChild(a);
