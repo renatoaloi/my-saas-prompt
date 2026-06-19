@@ -2,11 +2,13 @@
 
 Gere um SaaS completo com backend, frontend e Docker em minutos — apenas preenchendo um formulário.
 
-![Capa do Projeto](assets/capa.png)
-*Imagem de capa — adicionar posteriormente*
+![Capa do Projeto](assets/capa4.jpeg)
 
-![Preview do Formulário](assets/form-preview.png)
-*Print do formulário de especificação*
+![Preview do Formulário Ini](assets/form-preview-ini.png)
+
+... 
+
+![Preview do Formulário End](assets/form-preview-end.png)
 
 ---
 
@@ -63,7 +65,9 @@ Após gerar a aplicação básica, você pode aplicar configurações extras:
 
 ## Vídeo
 
+[![Preview do Formulário End](assets/capa-video.png)](https://youtu.be/iX3zGKaQoks)
 [Assista ao tutorial no YouTube](https://youtu.be/iX3zGKaQoks)
+
 
 ---
 
