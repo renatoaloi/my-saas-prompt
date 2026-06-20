@@ -1,0 +1,4 @@
+# Build artifacts
+specs/config/tech-specs-config.js
+openspec/**
+.opencode/**

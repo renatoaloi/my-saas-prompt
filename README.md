@@ -1,35 +1,77 @@
-# Projeto my-saas-prompt
+# my-saas-prompt
 
-Crie seu SaaS em 5 minutos! Projeto scaffolding de SaaS usando os melhores padrões de desenvolvimento do mercado. Prompts exclusivos para criação do projeto completo contendo backend, frontend e banco de dados local!
+Gere um SaaS completo com backend, frontend e Docker em minutos — apenas preenchendo um formulário.
 
-- Independente de plataforma, **publique onde quiser**! Esqueça Vercel, Lovable etc. Você é dono do seu código!
-- Frontend bonito e responsivo!
-- Backend organizado e seguindo os padrões da indústria.
-- Sem dependências pagas, **totalmente gratuito**.
-- Código limpo, arquitetura Clean! (Seu Dev vai adorar dar manutenção nesse projeto!)
-- Não requer nenhum conhecimento em programação (**faz tudo sozinho!**)
+![Capa do Projeto](assets/capa4.jpeg)
 
-## Vídeo
+![Preview do Formulário Ini](assets/form-preview-ini.png)
 
-[Assista no Youtube!](https://youtu.be/iX3zGKaQoks)
+... 
 
-## Como funciona?
+![Preview do Formulário End](assets/form-preview-end.png)
 
-- Edite o arquivo Project.md com as especificações do seu projeto (use o Project.example.md como inspiração).
-- Não mexa em mais nada, os outros arquivos já estão prontos para tudo funcionar automaticamente.
-- Agora abra seu harness de IA favorito (Claude, Codex, Cursor, OpenCode etc.)
-- Use o comando `/init` no modo `Build` e pronto!
-- Se ele não construir o projeto automaticamente, basta pedir para executar o `Prompt.txt`
+---
 
-Desfrute do sistema usando o Docker (forma mais fácil):
+## Como Usar
 
-```
+### 1. Preencha o formulário
+
+Abra o arquivo `specs/SpecsForm.html` no seu navegador e preencha:
+
+| Campo | O que colocar |
+|---|---|
+| **Nome do Projeto** | Título do seu SaaS |
+| **Objetivo / Descrição** | O que o sistema deve fazer |
+| **Regras de Negócio** | Regras que o sistema deve respeitar |
+| **Entidades** | Tabelas do banco com seus campos |
+| **Requisitos Funcionais** | Validações e comportamentos esperados |
+| **Requisitos Visuais** | Opções do menu lateral e tema visual |
+
+### 2. Gere o arquivo de especificação
+
+Clique em **Gerar .md** — o arquivo `Project.md` será baixado automaticamente.
+
+### 3. Construa o projeto com IA
+
+Abra seu harness de IA favorito (Claude, Codex, Cursor, OpenCode etc.) e peça para executar o arquivo `specs/Prompt.txt`. A IA vai:
+
+1. Ler o `Project.md`
+2. Criar a estrutura completa do projeto
+3. Implementar backend com arquitetura Clean
+4. Implementar frontend React + Vite + Tailwind
+5. Configurar Docker
+6. Gerar README.md
+
+> **Ordem recomendada:** primeiro gere a aplicação básica. Depois, se desejar, adicione autenticação JWT ou migre para Supabase — são configurações opcionais.
+
+### 4. Execute com Docker
+
+```bash
 docker compose up -d --build
 ```
 
-Acesse a URL `https:\\localhost:8080` e veja seu sistema pronto e funcionando!
+Acesse `http://localhost:8080` e veja seu sistema pronto!
+
+---
+
+## Configurações Avançadas (Opcionais)
+
+Após gerar a aplicação básica, você pode aplicar configurações extras:
+
+- **Autenticação JWT** (`specs/config/LoginConfig.md`): adiciona cadastro, login e reset de senha
+- **Migração para Supabase** (`specs/config/SupabaseConfig.md`): troca SQLite por PostgreSQL gerenciado
+
+---
+
+## Vídeo
+
+[![Preview do Formulário End](assets/capa-video.png)](https://youtu.be/iX3zGKaQoks)
+[Assista ao tutorial no YouTube](https://youtu.be/iX3zGKaQoks)
+
+
+---
 
 ## Dependências
 
-- **Git-CLI**: gerenciador de repositório, para controlar versões dos arquivos e criar pontos de retorno, caso algo dê errado.
-- **Docker**: serviço de containeres para levantar a aplicação em ambientes isolados, nos padrões compatíveis com as principais Clouds (AWS e Azure)
+- **Git** — controle de versão
+- **Docker** — containerização da aplicação

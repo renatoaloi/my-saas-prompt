@@ -1,0 +1,560 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>my-saas-prompt — Gerar Project.md</title>
+<!-- tech specs lidas diretamente de config/TechSpecsConfig.md -->
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: 'Inter', system-ui, -apple-system, sans-serif;
+    background: linear-gradient(135deg, #f0f4ff 0%, #e8edf5 100%);
+    min-height: 100vh;
+    display: flex;
+    align-items: flex-start;
+    justify-content: center;
+    padding: 48px 24px;
+    color: #1a1f36;
+  }
+
+  .container {
+    width: 100%;
+    max-width: 860px;
+  }
+
+  /* HEADER */
+  .header {
+    text-align: center;
+    margin-bottom: 40px;
+  }
+
+  .header h1 {
+    font-size: 1.75rem;
+    font-weight: 800;
+    color: #1a1f36;
+    letter-spacing: -0.02em;
+  }
+
+  .header h1 span {
+    background: linear-gradient(135deg, #4f46e5, #7c3aed);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  .header p {
+    font-size: 0.95rem;
+    color: #5b6783;
+    margin-top: 6px;
+  }
+
+  .header .badge {
+    display: inline-block;
+    background: #eef2ff;
+    color: #4f46e5;
+    font-size: 0.72rem;
+    font-weight: 600;
+    padding: 4px 12px;
+    border-radius: 20px;
+    margin-top: 12px;
+    letter-spacing: 0.02em;
+  }
+
+  /* STEP INDICATOR */
+  .steps {
+    display: flex;
+    justify-content: center;
+    gap: 8px;
+    margin-bottom: 36px;
+  }
+
+  .step-dot {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .step-dot .circle {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.75rem;
+    font-weight: 700;
+    transition: all 0.3s;
+  }
+
+  .step-dot .circle.active {
+    background: #4f46e5;
+    color: #fff;
+    box-shadow: 0 2px 8px rgba(79, 70, 229, 0.35);
+  }
+
+  .step-dot .circle.inactive {
+    background: #e2e8f0;
+    color: #94a3b8;
+  }
+
+  .step-dot .label {
+    font-size: 0.72rem;
+    font-weight: 500;
+    color: #64748b;
+  }
+
+  .step-dot .label.active {
+    color: #4f46e5;
+    font-weight: 600;
+  }
+
+  .step-line {
+    width: 40px;
+    height: 2px;
+    background: #e2e8f0;
+    align-self: center;
+  }
+
+  /* CARD */
+  .card {
+    background: #ffffff;
+    border: 1px solid #e2e8f0;
+    border-radius: 16px;
+    padding: 40px;
+    box-shadow: 0 4px 24px rgba(0, 0, 0, 0.06);
+  }
+
+  .section {
+    margin-bottom: 32px;
+    padding-bottom: 32px;
+    border-bottom: 1px solid #f1f5f9;
+  }
+
+  .section:last-of-type { border-bottom: none; margin-bottom: 0; padding-bottom: 0; }
+
+  .section-header {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 16px;
+  }
+
+  .section-number {
+    width: 26px;
+    height: 26px;
+    border-radius: 8px;
+    background: #eef2ff;
+    color: #4f46e5;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.72rem;
+    font-weight: 700;
+    flex-shrink: 0;
+  }
+
+  .section-title {
+    font-size: 0.85rem;
+    font-weight: 700;
+    color: #1a1f36;
+    letter-spacing: 0.01em;
+  }
+
+  .section-desc {
+    font-size: 0.78rem;
+    color: #8b98b8;
+    margin-top: 1px;
+  }
+
+  label {
+    display: block;
+    font-size: 0.82rem;
+    font-weight: 500;
+    color: #2d3555;
+    margin-bottom: 5px;
+    margin-top: 16px;
+  }
+
+  label:first-of-type { margin-top: 0; }
+
+  input[type=text], textarea {
+    width: 100%;
+    background: #f8faff;
+    border: 1.5px solid #e2e8f0;
+    border-radius: 10px;
+    padding: 11px 14px;
+    color: #1a1f36;
+    font-size: 0.88rem;
+    font-family: inherit;
+    outline: none;
+    transition: border-color 0.2s, box-shadow 0.2s;
+    resize: vertical;
+  }
+
+  input[type=text]:focus, textarea:focus {
+    border-color: #4f46e5;
+    box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.1);
+  }
+
+  textarea { min-height: 80px; }
+
+  .list-group {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .list-item {
+    display: flex;
+    gap: 8px;
+    align-items: center;
+  }
+
+  .list-item input { flex: 1; }
+
+  .btn-remove {
+    background: #fef2f2;
+    border: 1px solid #fecaca;
+    color: #ef4444;
+    border-radius: 8px;
+    padding: 0 12px;
+    height: 40px;
+    cursor: pointer;
+    font-size: 1.1rem;
+    flex-shrink: 0;
+    transition: background 0.2s;
+  }
+
+  .btn-remove:hover { background: #fee2e2; }
+
+  .btn-add {
+    background: transparent;
+    border: 1.5px dashed #d0d8e8;
+    color: #5b6783;
+    border-radius: 10px;
+    padding: 9px 16px;
+    cursor: pointer;
+    font-size: 0.82rem;
+    margin-top: 10px;
+    width: 100%;
+    transition: all 0.2s;
+    font-family: inherit;
+    font-weight: 500;
+  }
+
+  .btn-add:hover {
+    border-color: #4f46e5;
+    color: #4f46e5;
+    background: #f8faff;
+  }
+
+  /* ACTIONS */
+  .actions {
+    display: flex;
+    gap: 12px;
+    margin-top: 36px;
+    justify-content: flex-end;
+    padding-top: 28px;
+    border-top: 1px solid #f1f5f9;
+  }
+
+  .btn-secondary {
+    background: transparent;
+    border: 1.5px solid #e2e8f0;
+    color: #5b6783;
+    border-radius: 10px;
+    padding: 12px 24px;
+    cursor: pointer;
+    font-size: 0.85rem;
+    font-weight: 500;
+    font-family: inherit;
+    transition: all 0.2s;
+  }
+
+  .btn-secondary:hover { border-color: #cbd5e1; color: #1a1f36; }
+
+  .btn-primary {
+    background: linear-gradient(135deg, #4f46e5, #7c3aed);
+    border: none;
+    color: white;
+    border-radius: 10px;
+    padding: 12px 28px;
+    cursor: pointer;
+    font-size: 0.88rem;
+    font-weight: 600;
+    font-family: inherit;
+    transition: opacity 0.2s, transform 0.15s;
+    box-shadow: 0 2px 12px rgba(79, 70, 229, 0.3);
+  }
+
+  .btn-primary:hover { opacity: 0.92; transform: translateY(-1px); }
+  .btn-primary:active { transform: translateY(0); }
+
+  /* FOOTER */
+  .footer {
+    text-align: center;
+    margin-top: 24px;
+    font-size: 0.75rem;
+    color: #94a3b8;
+  }
+
+  .footer a { color: #4f46e5; text-decoration: none; }
+
+  /* TOAST */
+  .toast {
+    display: none;
+    position: fixed;
+    bottom: 28px;
+    right: 28px;
+    background: #065f46;
+    color: white;
+    padding: 14px 24px;
+    border-radius: 12px;
+    font-size: 0.88rem;
+    font-weight: 600;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.15);
+    z-index: 999;
+    animation: slideUp 0.3s ease;
+  }
+
+  .toast.show { display: block; }
+
+  @keyframes slideUp {
+    from { opacity: 0; transform: translateY(12px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  code {
+    background: #f1f5f9;
+    padding: 2px 6px;
+    border-radius: 5px;
+    font-size: 0.78rem;
+    color: #4f46e5;
+  }
+
+  ::-webkit-scrollbar { width: 6px; }
+  ::-webkit-scrollbar-track { background: #f1f5f9; border-radius: 3px; }
+  ::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 3px; }
+
+  @media (max-width: 640px) {
+    body { padding: 20px 12px; }
+    .card { padding: 24px; }
+    .steps { display: none; }
+    .header h1 { font-size: 1.35rem; }
+    .actions { flex-direction: column; }
+    .actions button { width: 100%; text-align: center; }
+  }
+</style>
+</head>
+<body>
+
+<div class="container">
+
+  <div class="header">
+    <h1><span>my-saas-prompt</span></h1>
+    <p>Preencha os dados do seu projeto e gere um <code>Project.md</code> pronto para qualquer IA construir.</p>
+    <div class="badge">specs/config/TechSpecsConfig.md como fonte das tech specs</div>
+  </div>
+
+  <div class="steps">
+    <div class="step-dot">
+      <div class="circle active">1</div>
+      <span class="label active">Projeto</span>
+    </div>
+    <div class="step-line"></div>
+    <div class="step-dot">
+      <div class="circle inactive">2</div>
+      <span class="label">Regras</span>
+    </div>
+    <div class="step-line"></div>
+    <div class="step-dot">
+      <div class="circle inactive">3</div>
+      <span class="label">Entidades</span>
+    </div>
+    <div class="step-line"></div>
+    <div class="step-dot">
+      <div class="circle inactive">4</div>
+      <span class="label">Funcionais</span>
+    </div>
+    <div class="step-line"></div>
+    <div class="step-dot">
+      <div class="circle inactive">5</div>
+      <span class="label">Visual</span>
+    </div>
+  </div>
+
+  <div class="card">
+
+    <!-- PROJETO -->
+    <div class="section">
+      <div class="section-header">
+        <div class="section-number">1</div>
+        <div>
+          <div class="section-title">Projeto</div>
+          <div class="section-desc">Dê um nome e descreva o objetivo do sistema</div>
+        </div>
+      </div>
+      <label>Nome do Projeto</label>
+      <input id="proj-nome" type="text" placeholder="ex: Sistema de Gestão de Pedidos" />
+      <label>Objetivo / Descrição</label>
+      <textarea id="proj-desc" placeholder="Descreva o que o projeto deve fazer..."></textarea>
+    </div>
+
+    <!-- REGRAS DE NEGÓCIO -->
+    <div class="section">
+      <div class="section-header">
+        <div class="section-number">2</div>
+        <div>
+          <div class="section-title">Regras de Negócio</div>
+          <div class="section-desc">Regras que o sistema deve respeitar obrigatoriamente</div>
+        </div>
+      </div>
+      <div class="list-group" id="list-regras"></div>
+      <button class="btn-add" onclick="addItem('list-regras', 'ex: Um cliente não pode ter dois pedidos em aberto')">+ Adicionar Regra</button>
+    </div>
+
+    <!-- ENTIDADES -->
+    <div class="section">
+      <div class="section-header">
+        <div class="section-number">3</div>
+        <div>
+          <div class="section-title">Entidades</div>
+          <div class="section-desc">Tabelas do banco com seus campos</div>
+        </div>
+      </div>
+      <div class="list-group" id="list-entidades"></div>
+      <button class="btn-add" onclick="addItem('list-entidades', 'ex: Pedido: Id, ClienteId, Status, DataCriacao')">+ Adicionar Entidade</button>
+    </div>
+
+    <!-- REQUISITOS FUNCIONAIS -->
+    <div class="section">
+      <div class="section-header">
+        <div class="section-number">4</div>
+        <div>
+          <div class="section-title">Requisitos Funcionais</div>
+          <div class="section-desc">Validações, cálculos e comportamentos esperados</div>
+        </div>
+      </div>
+      <div class="list-group" id="list-rf"></div>
+      <button class="btn-add" onclick="addItem('list-rf', 'ex: Campo CPF deve ter 11 dígitos numéricos')">+ Adicionar Requisito Funcional</button>
+    </div>
+
+    <!-- REQUISITOS VISUAIS -->
+    <div class="section">
+      <div class="section-header">
+        <div class="section-number">5</div>
+        <div>
+          <div class="section-title">Requisitos Visuais</div>
+          <div class="section-desc">Aparência do sistema gerado</div>
+        </div>
+      </div>
+      <label>Opções do Menu Lateral <span style="color:#8b98b8;font-weight:400">(separadas por vírgula)</span></label>
+      <input id="menu-opcoes" type="text" placeholder="ex: Dashboard, Clientes, Pedidos, Relatórios" />
+      <label>Tema Visual</label>
+      <textarea id="tema" placeholder="ex: Tema escuro, cores roxo e cinza, tipografia Inter, espaçamento generoso..." style="min-height:70px;"></textarea>
+    </div>
+
+    <!-- ACTIONS -->
+    <div class="actions">
+      <button class="btn-secondary" onclick="limpar()">Limpar tudo</button>
+      <button class="btn-primary" onclick="gerarMd()">Gerar .md</button>
+    </div>
+
+  </div>
+
+  <div class="footer">
+    <a href="https://github.com/anomalyco/opencode" target="_blank">my-saas-prompt</a> &mdash; gere seu SaaS em minutos
+  </div>
+
+</div>
+
+<div class="toast" id="toast">Project.md baixado com sucesso!</div>
+
+<script>
+function addItem(listId, placeholder) {
+  const list = document.getElementById(listId);
+  const div = document.createElement('div');
+  div.className = 'list-item';
+  div.innerHTML = `<input type="text" placeholder="${placeholder}" /><button class="btn-remove" onclick="this.parentElement.remove()" title="Remover">×</button>`;
+  list.appendChild(div);
+  div.querySelector('input').focus();
+}
+
+function getList(listId) {
+  return [...document.querySelectorAll(`#${listId} input`)]
+    .map(i => i.value.trim()).filter(Boolean);
+}
+
+function limpar() {
+  if (!confirm('Limpar todos os campos?')) return;
+  ['proj-nome','proj-desc','menu-opcoes','tema'].forEach(id => document.getElementById(id).value = '');
+  ['list-regras','list-entidades','list-rf'].forEach(id => document.getElementById(id).innerHTML = '');
+}
+
+function listar(items, fallback) {
+  return items.length ? items.map(i => `- ${i}`).join('\n') : `- [ ${fallback} ]`;
+}
+
+function gerarMd() {
+  const nome = document.getElementById('proj-nome').value.trim() || 'Projeto';
+  const desc = document.getElementById('proj-desc').value.trim() || '[ descrever o que você quer que o projeto faça ]';
+  const regras = getList('list-regras');
+  const entidades = getList('list-entidades');
+  const rfs = getList('list-rf');
+  const menu = document.getElementById('menu-opcoes').value.trim() || '[ digitar as opções separadas por vírgula ]';
+  const tema = document.getElementById('tema').value.trim() || '[ especificar cores, modos, tipografia, espaçamento etc ]';
+
+  const md = `# ${nome}
+
+## Objetivo do Projeto
+
+${desc}
+
+## Regras de Negócio
+
+${listar(regras, 'preencher com regra 1')}
+
+## Entidades
+
+${listar(entidades, 'Entidade 1: Id, Campo1, Campo2,...')}
+
+## Requisitos Funcionais
+
+${listar(rfs, 'Campo X deve ter 9 dígitos numéricos')}
+
+## Requisitos Visuais
+- Opções do menu lateral: ${menu}
+- Tema visual: ${tema}
+
+---
+> **Instruções para a Inteligência Artificial**
+>
+> Este documento contém os requisitos de negócio e visuais do projeto.
+> As especificações técnicas detalhadas (stack, arquitetura, regras de frontend e backend) estão no arquivo **\`config/TechSpecsConfig.md\`** — consulte-o obrigatoriamente antes de implementar.
+`;
+
+  const blob = new Blob([md], { type: 'text/markdown' });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = 'Project.md';
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
+  URL.revokeObjectURL(url);
+
+  const toast = document.getElementById('toast');
+  toast.classList.add('show');
+  setTimeout(() => toast.classList.remove('show'), 3000);
+}
+
+addItem('list-regras', 'ex: Um cliente não pode ter dois pedidos em abertos');
+addItem('list-entidades', 'ex: Pedido: Id, ClienteId, Status, DataCriacao');
+addItem('list-rf', 'ex: Campo CPF deve ter 11 dígitos numéricos');
+</script>
+</body>
+</html>
